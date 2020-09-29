@@ -2,20 +2,26 @@ from django.db import models
 from django.contrib.auth.models import User
 from bills.models import *
 from django.utils import timezone
+from django.core import checks
+
 class Transfere(models.Model):
-	sender= models.ForeignKey(User,related_name='+', on_delete=models.CASCADE)
-	receiver= models.ForeignKey(User,related_name='+', on_delete=models.CASCADE)
+	sender= models.ForeignKey(User,related_name='+', on_delete=models.DO_NOTHING)
+	receiver= models.ForeignKey(User,related_name='+', on_delete=models.DO_NOTHING)
 	ammount=models.DecimalField(max_digits=16, decimal_places=3)
-	fee=models.DecimalField(max_digits=16, decimal_places=3)
+	fee=models.DecimalField(max_digits=16, decimal_places=3,blank=True,null=True,)
 	create_date = models.DateTimeField(default=timezone.now)
-	bill=models.ForeignKey(Bill, on_delete=models.CASCADE)
+	bill=models.ForeignKey(Bill,blank=True,null=True, on_delete=models.PROTECT)
 	
 	def fee_calc(self):
-		self.fee= self.ammount/100
+		fee=0 if self.sender.is_superuser else self.ammount/100
+		return fee
 
+	def clean(self):
+		self.fee=self.fee_calc()
+		if not self.sender.is_superuser and(self.ammount<0 or self.sender.account.balance()<self.ammount+self.fee):
+			from django.core.exceptions import ValidationError
+			raise ValidationError('sender balance is not enough')
 
-	def valid_transfere(self):
-		if(self.ammount>0 and self.sender.balance>=self.ammount+self.fee):
-			return True
-		else:
-			return False
+	def save(self, *args, **kwargs):
+		self.full_clean()
+		super().save(*args, **kwargs)

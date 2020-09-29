@@ -12,14 +12,14 @@ class Bill(models.Model):
 
 	#function for payed bill or not by filtering transfere table
 
-	def valid_exp_date(self):
+	def valid_exp_date(value):
 		if (self.exp_date>self.create_date) :
 			return True  
 		else:
 			return False
 
 	def repayments(self):
-		return Transfere.Objects.filter(bill=self, receiver=self.source, create_date__lte=self.exp_date)
+		return Transfere.objects.filter(bill=self, receiver=self.source, create_date__lte=self.exp_date)
 
 	def status(self):
 		repayment=0
@@ -31,4 +31,11 @@ class Bill(models.Model):
 			repayment+=trans.ammount
 		else:
 			return "wating"
-			
+
+	@staticmethod
+	def sended_bill(sender):#add other filter later
+		return Bill.objects.filter(source=sender)
+
+	
+
+
