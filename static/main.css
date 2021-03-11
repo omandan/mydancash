@@ -1,0 +1,101 @@
+@charset "UTF-8";
+
+/*Font*/
+@import url('https://fonts.googleapis.com/css2?family=Cairo:wght@600&display=swap');
+
+
+/*Global / Desktop View*/
+header {
+    background-color: #232F3E;
+    padding-top: 12px;
+    padding-left: 19px;
+    padding-right: 19px;
+    padding-bottom: 12px;
+}
+.container {
+    max-width: 1200px;
+    margin-left: auto;
+    margin-right: auto;
+}
+nav {
+    background-color: #232F3E;
+}
+
+.btn-eshop{
+    color: #FFFFFF;
+    background-color: #FFBC00;
+}
+body {
+    font-family: 'Cairo', sans-serif;
+    font-style: normal;
+    font-weight: 300;
+    background-color: #EAEAEA;
+}
+main {
+    min-height: 400px;
+}
+footer {
+    height: 120px;
+    background-color: #232F3E;
+}
+.footer-dark{
+    text-align: center;
+    color:#FFFFFF;
+
+}
+.article-title {
+  color: #444444;
+}
+
+a.article-title:hover {
+  color: #428bca;
+  text-decoration: none;
+}
+
+.article-content {
+  white-space: pre-line;
+}
+
+.article-img {
+  height: 65px;
+  width: 65px;
+  margin-right: 16px;
+}
+
+.article-metadata {
+  padding-bottom: 1px;
+  margin-bottom: 4px;
+  border-bottom: 1px solid #e3e3e3
+}
+
+
+
+.article-metadata a:hover {
+  color: #333;
+  text-decoration: none;
+}
+
+.article-svg {
+  width: 25px;
+  height: 25px;
+  vertical-align: middle;
+}
+
+.account-img {
+  height: 125px;
+  width: 125px;
+  margin-right: 20px;
+  margin-bottom: 16px;
+}
+
+.account-heading {
+  font-size: 2.5rem;
+}
+
+.sent{
+  border-color: #D9195C;
+}
+
+.received {
+  border-color: #44B78B
+}

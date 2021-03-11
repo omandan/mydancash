@@ -4,6 +4,7 @@ from PIL import Image
 from transferes.models import *
 from django.utils import timezone
 from phone_field import PhoneField
+from django.shortcuts import get_object_or_404
 # Create your models here.
 class Account(models.Model):
     user = models.OneToOneField(User , on_delete=models.CASCADE)
@@ -28,8 +29,6 @@ class Account(models.Model):
     			balance-=trans.fee 
     	for trans in imports:
     		balance+=trans.ammount
-
-
     	return balance
 
     def save(self, *args, **kawrgs):
@@ -42,17 +41,21 @@ class Account(models.Model):
 	        img.thumbnail(output_size)
 	        img.save(self.image.path)
 
+    def filter_id(account_id):
+        return get_object_or_404(Account, pk=account_id)
 
 
 class Email(models.Model):
 	oner=models.ForeignKey(User,on_delete=models.CASCADE,related_name='+')
 	valid= models.BooleanField(default=False)
 	value=models.EmailField(unique=True)
+	vsbilty=models.BooleanField(default=True)
 
 #email log
 #
 
 class Phone(models.Model):
+	vsbilty=models.BooleanField(default=True)
 	oner=models.ForeignKey(User,on_delete=models.CASCADE)
 	valid= models.BooleanField(default=False)
 	value= PhoneField(help_text='Contact phone number',unique=True)
@@ -63,3 +66,10 @@ class Contact(models.Model):
 	name = models.CharField(max_length=50,null=False)
 	last_sync=models.DateTimeField(default=timezone.now)
 
+class ConfirmEmail(models.Model):
+    email=models.ForeignKey(Email,on_delete=models.CASCADE)
+    creat_date=models.DateTimeField(default=timezone.now)
+    key=models.TextField(null=False)
+    is_used=models.BooleanField(default=False)
+    redirct=models.TextField(null=False)
+    status=models.TextField(null=False)

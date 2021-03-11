@@ -3,6 +3,7 @@ from django.contrib.auth.models import User
 from bills.models import *
 from django.utils import timezone
 from django.core import checks
+from django.core.exceptions import ValidationError
 
 class Transfere(models.Model):
 	sender= models.ForeignKey(User,related_name='+', on_delete=models.DO_NOTHING)
@@ -17,11 +18,19 @@ class Transfere(models.Model):
 		return fee
 
 	def clean(self):
-		self.fee=self.fee_calc()
-		if not self.sender.is_superuser and(self.ammount<0 or self.sender.account.balance()<self.ammount+self.fee):
-			from django.core.exceptions import ValidationError
-			raise ValidationError('sender balance is not enough')
+		if self.ammount<1 :
+			raise ValidationError('ammount not valid')
+		if self.sender.is_superuser:
+			self.fee=0
+		else:
+			self.fee=self.fee_calc()
+			if self.sender.account.balance()<self.ammount+self.fee :
+				raise ValidationError('sender balance is not enough')
+		
 
 	def save(self, *args, **kwargs):
 		self.full_clean()
 		super().save(*args, **kwargs)
+
+	#def add(sender_id,receiver_id,ammount,bill_id=None):
+
