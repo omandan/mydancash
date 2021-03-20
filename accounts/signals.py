@@ -14,7 +14,7 @@ def create_Account(sender, instance, created, **kwargs):
 		Account.objects.create(user=instance)
 		instance.account.save()
 
-@receiver(pre_save, sender=Email)
+@receiver(post_save, sender=Email)
 def confirm_email(sender, instance, *args, **kwargs):
 	is_email_update=True
 	try:
@@ -27,22 +27,30 @@ def confirm_email(sender, instance, *args, **kwargs):
 		salt = uuid.uuid4().hex
 		hashed_key = hashlib.sha256(salt.encode() + key.encode()).hexdigest() + ':' + salt
 		confirm_email=ConfirmEmail(email=instance,key=hashed_key)
-		confirm_massege=send_mail(
-            'Confirm Likn',
-            'follw this link to confirm your email on Mydan Cash \n http://127.0.0.1:8000/register/id/{0}/token/{1} '.format(confirm_email.id,key),
-            'from@example.com',
-            [instance.value],
-        )
-		if confirm_massege:
-			print('http://127.0.0.1:8000/register/id/{0}/token/{1}'.format(confirm_email.id,key))#DANGER : ONLY ON DEBUG MODE
+		try:
 			confirm_email.redirct='email-validate'
 			confirm_email.status='sent'
 			confirm_email.save()
-		else:
-			confirm_email.redirct='email-validate'
-			confirm_email.status='send-failed'
-			confirm_email.save()
+			print('http://127.0.0.1:8000/register/id/{0}/token/{1}'.format(confirm_email.id,key))#DANGER : ONLY ON DEBUG MODE
 
+		except Exception as e1:
+			raise e1
+		else:
+			try:
+				confirm_massege=send_mail(
+	            'Confirm Likn',
+	            'follw this link to confirm your email on Mydan Cash \n http://127.0.0.1:8000/register/id/{0}/token/{1} '.format(confirm_email.id,key),
+	            'from@example.com',
+	            [instance.value],
+	        	)
+			except Exception as e2:
+				confirm_email.redirct='email-validate'
+				confirm_email.status='send-failed'
+				confirm_email.save()
+
+			
+		
+		
 
 
 

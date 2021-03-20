@@ -15,6 +15,16 @@
     <link href="https://fonts.googleapis.com/css2?family=Cairo:wght@600&display=swap" rel="stylesheet">
     <link rel="icon" href="icon/E-shop Logo.svg">
     <script type="text/javascript" src="https://code.jquery.com/jquery-1.10.2.min.js"></script>
+
+
+
+    <script src="https://unpkg.com/gijgo@1.9.13/js/gijgo.min.js" type="text/javascript"></script>
+    <link href="https://unpkg.com/gijgo@1.9.13/css/gijgo.min.css" rel="stylesheet" type="text/css" />
+
+
+
+
+
   </head>
   <body>
     <header class="site-header" style="color : #FFFFFF">
@@ -59,21 +69,28 @@
                 </div>
                   
               </li>
-              <li class="nav-item">
-                <a class="nav-link" href="#">Bills</a>
+              <li class="nav-item dropdown">
+                <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                  Bills
+                </a>
+                <div class="dropdown-menu" aria-labelledby="navbarDropdown">
+                  <a class="dropdown-item" href="{% url 'bill-add' %}">Add New Bill</a>
+                  <a class="dropdown-item" href="{% url 'bills-history' %}">History Of My Bills</a>
+                </div> 
               </li>
+              
               
             </ul>
             <img  src="{{ user.account.image.url }}" alt="" width="35" height="35" class="rounded-circle"/>
             {{ user.username }} : {{ user.account.balance }} SYP
             {% else %}
 
-            <a class="nav-link disabled" href="{% url 'login' %}" tabindex="-1" aria-disabled="true">
+            <a class="nav-link " href="{% url 'login' %}" tabindex="-1" aria-disabled="true">
                 &nbsp;
                 <img src="icon/Signin_icon.svg" alt="" width="16" height="17" />
                 Log In 
             </a>
-            <a class="nav-link disabled" href="{% url 'signup' %}" tabindex="-1" aria-disabled="true">
+            <a class="nav-link " href="{% url 'signup' %}" tabindex="-1" aria-disabled="true">
                     &nbsp;
                     <img src="icon/Signup_icon.svg" alt="" width="16" height="17" />
                     Sing Up
@@ -104,18 +121,17 @@
             {% endfor %}
           {% endif %}
           <div class="container">
-  <div class="row">
-    <div class="col">col</div>
-    <div class="col">col</div>
-    <div class="col">col</div>
-    <div class="col">col</div>
-  </div>
-  <div class="row">
-    <div class="col-8">col-8</div>
-    <div class="col-4">col-4</div>
-  </div>
-</div>
+  
+
+
+
           {% block content %}{% endblock %}
+
+    
+
+
+
+
         </div>
         <div class="col-md-4">
           <div class="content-section">
@@ -262,6 +278,16 @@
         </footer>
     <!-- Optional JavaScript -->
     <!-- jQuery first, then Popper.js, then Bootstrap JS -->
+
+
+      <script>
+        $('.datetimepicker').datetimepicker({
+            uiLibrary: 'bootstrap4',
+            modal: true,
+            footer: true,
+            format: 'yyyy-mm-dd hh:mm'
+        });
+    </script>
     <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js" integrity="sha384-DfXdz2htPH0lsSSs5nCTpuj/zy4C+OGpamoFVy38MVBnE+IbbVYUew+OrCXaRkfj" crossorigin="anonymous"></script>
     <script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.0/dist/umd/popper.min.js" integrity="sha384-Q6E9RHvbIyZFJoft+2mJbHaEWldlvI9IOYy5n3zV9zzTtmI3UksdQRVvoxMfooAo" crossorigin="anonymous"></script>
     <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.0/js/bootstrap.min.js" integrity="sha384-OgVRvuATP1z7JjHLkuOU7Xw704+h835Lr+6QL9UvYjZE3Ipu6Tp75j7Bh/kR0JKI" crossorigin="anonymous"></script>

@@ -46,6 +46,8 @@ class EmailAddView(LoginRequiredMixin,CreateView):
 	model=Email
 	fields=['value','vsbilty']
 	template_name = 'accounts/email_form.html'
+	def get_success_url(self):
+		return reverse('account-conection')
 	def form_valid(self, form):
 		form.instance.oner = self.request.user
 		return super().form_valid(form)
@@ -53,7 +55,7 @@ class EmailAddView(LoginRequiredMixin,CreateView):
 
 class EmailEditView(LoginRequiredMixin, UserPassesTestMixin, UpdateView):
 	def get_success_url(self):
-		return reverse('index')
+		return reverse('account-conection')
 	model = Email
 	fields = ['value', 'vsbilty']
 	template_name ='accounts/email_form.html'

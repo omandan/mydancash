@@ -1,0 +1,48 @@
+{% extends "base_page.html" %}
+{% load crispy_forms_tags %}
+{% block content %}
+
+
+
+<div class="row">
+	<div class="col">Bill Details</div>
+	<div class="col">...</div>
+
+	
+</div>
+<div class="row">
+            <table class="table">
+			  <thead>
+			    <tr>
+			      <th scope="col">#</th>
+			      <th scope="col">Source</th>
+			      <th scope="col">Visabilty</th>
+			      <th scope="col">Create Date</th>
+			      <th scope="col">EXP Date</th>
+			      <th scope="col">Ammount</th>			      
+			      <th scope="col">Status </th>
+			      <th scope="col">Payed Ammount</th>
+			    </tr>
+			  </thead>
+			  <tbody>
+			    <tr>
+			      <th scope="row">{{ bill.id }}</th>
+			      <td>{{ bill.source }}</td>
+			      <td>{{ bill.vsbilty }}</td>
+			      <td>{{ bill.create_date }}</td>
+			      <td>{{ bill.exp_date }}</td>
+			      <td>{{ bill.ammount }}</td>
+			      <td>{{ status }}</td>
+			      <td>{{ repayment }}</td>
+
+			    </tr>
+			   
+			  </tbody>
+			</table>  
+</div>
+<form method="post">{% csrf_token %}
+    {{ form.as_p }}
+    <input type="submit" value="Save">
+</form>
+
+{% endblock content %}

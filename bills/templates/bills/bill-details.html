@@ -1,0 +1,77 @@
+{% extends "base_page.html" %}
+{% load crispy_forms_tags %}
+{% block content %}
+
+
+
+<div class="row">
+	<div class="col">Bill Details</div>
+	<div class="col">...</div>
+
+	
+</div>
+<div class="row">
+            <table class="table">
+			  <thead>
+			    <tr>
+			      <th scope="col">#</th>
+			      <th scope="col">Source</th>
+			      <th scope="col">Visabilty</th>
+			      <th scope="col">Create Date</th>
+			      <th scope="col">EXP Date</th>
+			      <th scope="col">Ammount</th>			      
+			      <th scope="col">Status </th>
+			      <th scope="col">Payed Ammount</th>
+
+			    </tr>
+			  </thead>
+			  <tbody>
+			    <tr>
+			      <th scope="row">{{ bill.id }}</th>
+			      <td>{{ bill.source }}</td>
+			      <td>{{ bill.vsbilty }}</td>
+			      <td>{{ bill.create_date }}</td>
+			      <td>{{ bill.exp_date }}</td>
+			      <td>{{ bill.ammount }}</td>
+			      <td>{{ status }}</td>
+			      <td>{{ repayments_sum }}</td>
+
+			    </tr>
+			   
+			  </tbody>
+			</table>  
+			
+			
+            
+           
+</div>
+<div class="row">
+	<div class="col">Bill Repayments Transfere</div>
+	
+</div>
+<div class="row">
+	<table class="table">
+			  <thead>
+			    <tr>
+			      <th scope="col">#</th>
+			      <th scope="col">sender</th>
+			      <th scope="col">Create Date</th>
+			      <th scope="col">Ammount</th>			      
+			    </tr>
+			  </thead>
+			  <tbody>
+			  	{% for trans in repayments%}
+				    <tr>
+				      <th scope="row">{{ trans.id }}</th>
+				      <td>{{ trans.sender }}</td>
+				      <td>{{ trans.create_date }}</td>
+				      <td>{{ trans.ammount }}</td>
+				    </tr>
+			   {% endfor %}
+			  </tbody>
+			</table>  
+
+</div>
+
+
+{% endblock content %}

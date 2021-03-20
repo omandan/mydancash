@@ -51,6 +51,7 @@ class Email(models.Model):
 	value=models.EmailField(unique=True)
 	vsbilty=models.BooleanField(default=True)
 
+
 #email log
 #
 

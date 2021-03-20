@@ -26,11 +26,15 @@ class Transfere(models.Model):
 			self.fee=self.fee_calc()
 			if self.sender.account.balance()<self.ammount+self.fee :
 				raise ValidationError('sender balance is not enough')
-		
+	
+
 
 	def save(self, *args, **kwargs):
 		self.full_clean()
 		super().save(*args, **kwargs)
 
 	#def add(sender_id,receiver_id,ammount,bill_id=None):
-
+	'''
+	@staticmethod
+	
+		'''

@@ -29,6 +29,7 @@ urlpatterns = [
     path('',index,name='index'),
     path('',include('accounts.urls')),
     path('transfere/',include('transferes.urls')),
+    path('bill/',include('bills.urls')),
 ]#+ static(settings.STATIC_URL, document_root=settings.STATIC_ROOT)
 if settings.DEBUG:
     urlpatterns += static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)

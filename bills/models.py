@@ -1,7 +1,10 @@
 from django.db import models
 from transferes.models import *
-from django.utils import timezone
 from django.contrib.auth.models import User
+from django.utils import timezone
+
+#from transferes.models import Transfere
+
 # Create your models here.
 class Bill(models.Model):
 	source=models.ForeignKey(User, on_delete=models.CASCADE)
@@ -17,25 +20,10 @@ class Bill(models.Model):
 			return True  
 		else:
 			return False
-
-	def repayments(self):
-		return Transfere.objects.filter(bill=self, receiver=self.source, create_date__lte=self.exp_date)
-
-	def status(self):
-		repayment=0
-		for trans in self.repayments():
-			if (repayment>=self.ammount):
-				return "payed"
-			elif (slf.exp_date<timezone.now):
-				return "exp"
-			repayment+=trans.ammount
-		else:
-			return "wating"
-
+	
 	@staticmethod
 	def sended_bill(sender):#add other filter later
 		return Bill.objects.filter(source=sender)
 
-	
 
 
